@@ -35,6 +35,9 @@ export function Modal({ isModalOpen, setIsModalOpen, time, setTime }) {
       className={`fixed ${
         isModalOpen ? "scale-100" : "scale-0"
       } flex h-[70%] w-[90%] flex-col items-center justify-center gap-6 rounded-md bg-slate-900 text-slate-100 transition-transform duration-300 sm:w-[70%] xl:w-1/2`}
+      onClick={(e) => {
+        e.stopPropagation();
+      }}
     >
       <div className="absolute top-2 right-2 aspect-square h-6 cursor-pointer rounded-full bg-slate-200 transition-transform hover:scale-110 hover:bg-slate-100">
         <XMarkIcon

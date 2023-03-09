@@ -4,10 +4,14 @@ import {
   PlayIcon,
   PauseIcon,
   ArrowPathRoundedSquareIcon,
+  PencilIcon,
 } from "@heroicons/react/24/solid";
+import { GoalDropDownn } from "./GoalDropDown";
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isGoalOpen, setIsGoalOpen] = useState(false);
+  const [goal, setGoal] = useState(1);
   const [isPaused, setIsPaused] = useState(true);
   const [time, setTime] = useState({ sessionTime: 25 * 60, breakTime: 5 * 60 });
 
@@ -22,7 +26,12 @@ function App() {
   };
 
   return (
-    <div className="flex h-screen select-none flex-col items-center justify-center gap-4 p-4">
+    <div
+      className="flex h-screen select-none flex-col items-center justify-center gap-4 p-4"
+      onClick={() => {
+        setIsGoalOpen(false);
+      }}
+    >
       <h1 className="text-6xl font-bold sm:text-7xl md:text-8xl">
         {formatTime(time.sessionTime)}
       </h1>
@@ -52,7 +61,7 @@ function App() {
             setIsModalOpen((prev) => !prev);
           }}
         >
-          Choose Duration.
+          Set Duration.
         </div>
       </div>
       <div className="flex flex-col items-center justify-center gap-4">
@@ -62,12 +71,32 @@ function App() {
         <div className="h-2 w-full rounded-full bg-gray-300">
           <div className="h-2 w-[10%] rounded-full bg-gray-800"></div>
         </div>
+        <div className="flex justify-end gap-2 self-end">
+          <p className="flex items-center text-sm sm:text-base">{goal} hours</p>
+          <div
+            className="relative flex aspect-square w-6 cursor-pointer items-center justify-center rounded bg-gray-900 hover:bg-gray-700 hover:shadow-md hover:shadow-slate-300"
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsGoalOpen((prev) => !prev);
+            }}
+          >
+            <PencilIcon className="w-1/2 text-white" />
+            <GoalDropDownn
+              isGoalOpen={isGoalOpen}
+              goal={goal}
+              setGoal={setGoal}
+            />
+          </div>
+        </div>
       </div>
+
+      {/* Modal and Overlay. */}
       <div
         className={`pointer-events-none fixed h-full w-full bg-gray-900 opacity-30 ${
           isModalOpen ? "pointer-events-auto block" : "hidden"
         }`}
-        onClick={() => {
+        onClick={(e) => {
+          e.stopPropagation();
           setIsModalOpen(false);
         }}
       ></div>
