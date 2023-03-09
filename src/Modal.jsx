@@ -39,13 +39,13 @@ export function Modal({ isModalOpen, setIsModalOpen, time, setTime }) {
         e.stopPropagation();
       }}
     >
-      <div className="absolute top-2 right-2 aspect-square h-6 cursor-pointer rounded-full bg-slate-200 transition-transform hover:scale-110 hover:bg-slate-100">
-        <XMarkIcon
-          className="scale-75 text-gray-900"
-          onClick={() => {
-            setIsModalOpen(false);
-          }}
-        />
+      <div
+        className="absolute top-2 right-2 aspect-square h-6 cursor-pointer rounded-full bg-slate-200 transition-transform hover:scale-110 hover:bg-slate-100"
+        onClick={() => {
+          setIsModalOpen(false);
+        }}
+      >
+        <XMarkIcon className="scale-75 text-gray-900" />
       </div>
       <h1 className="text-xl font-bold sm:text-2xl">Set your timer</h1>
       <div className="flex w-[70%] flex-col gap-4">
