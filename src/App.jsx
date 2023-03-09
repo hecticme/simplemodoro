@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Modal } from "./Modal";
 import {
   PlayIcon,
@@ -13,7 +13,48 @@ function App() {
   const [isGoalOpen, setIsGoalOpen] = useState(false);
   const [goal, setGoal] = useState(1);
   const [isPaused, setIsPaused] = useState(true);
-  const [time, setTime] = useState({ sessionTime: 25 * 60, breakTime: 5 * 60 });
+  const [isBreak, setIsBreak] = useState(false);
+  const [time, setTime] = useState({
+    sessionTime: 25 * 60,
+    breakTime: 5 * 60,
+    displayTime: 25 * 60,
+  });
+  const cdInterval = useRef(null);
+
+  const countdown = () => {
+    if (isPaused) {
+      cdInterval.current = setInterval(() => {
+        setTime((prev) => {
+          return {
+            ...prev,
+            displayTime: prev.displayTime - 1,
+          };
+        });
+      }, 1000);
+    } else {
+      clearInterval(cdInterval.current);
+    }
+  };
+
+  const resetTimer = () => {
+    setTime((prev) => {
+      return {
+        ...prev,
+        displayTime: prev.sessionTime,
+      };
+    });
+    setIsPaused(true);
+    clearInterval(cdInterval.current);
+  };
+
+  useEffect(() => {
+    setTime((prev) => {
+      return {
+        ...prev,
+        displayTime: prev.sessionTime,
+      };
+    });
+  }, [time.sessionTime]);
 
   const formatTime = (time) => {
     let minutes = Math.floor(time / 60);
@@ -33,13 +74,14 @@ function App() {
       }}
     >
       <h1 className="text-6xl font-bold sm:text-7xl md:text-8xl">
-        {formatTime(time.sessionTime)}
+        {isBreak ? formatTime(breakTime) : formatTime(time.displayTime)}
       </h1>
       <div className="mb-4 flex gap-2">
         <div
           className="flex aspect-square w-10 cursor-pointer items-center justify-center rounded-full bg-gray-900 hover:bg-gray-700 hover:shadow-md hover:shadow-slate-300"
           onClick={() => {
             setIsPaused((prev) => !prev);
+            countdown();
           }}
         >
           {isPaused ? (
@@ -48,7 +90,12 @@ function App() {
             <PauseIcon className="w-1/2 text-white" />
           )}
         </div>
-        <div className="flex aspect-square w-10 cursor-pointer items-center justify-center rounded-full bg-gray-900 hover:bg-gray-700 hover:shadow-md hover:shadow-slate-300">
+        <div
+          className="flex aspect-square w-10 cursor-pointer items-center justify-center rounded-full bg-gray-900 hover:bg-gray-700 hover:shadow-md hover:shadow-slate-300"
+          onClick={() => {
+            resetTimer();
+          }}
+        >
           <ArrowPathRoundedSquareIcon className="w-1/2 text-white" />
         </div>
       </div>
