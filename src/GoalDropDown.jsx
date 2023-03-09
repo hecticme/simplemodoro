@@ -1,6 +1,12 @@
-import { useState } from "react";
-
 export function GoalDropDownn({ isGoalOpen, goal, setGoal }) {
+  const handleChange = (e) => {
+    if (e.target.value > 16) {
+      setGoal(16);
+    } else {
+      setGoal(e.target.value);
+    }
+  };
+
   return (
     <div
       className={`absolute top-[120%] right-0 h-24 w-32 rounded bg-gray-900 text-sm shadow-md shadow-slate-700 sm:h-28 sm:w-40 sm:text-base ${
@@ -19,9 +25,10 @@ export function GoalDropDownn({ isGoalOpen, goal, setGoal }) {
           type="number"
           name="goal"
           id="goal"
+          max="16"
           value={goal}
           onChange={(e) => {
-            setGoal(e.target.value);
+            handleChange(e);
           }}
           className="rounded-sm bg-slate-100 px-2 py-1 text-gray-900"
         />
