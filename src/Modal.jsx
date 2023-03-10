@@ -50,7 +50,7 @@ export function Modal({ isModalOpen, setIsModalOpen, time, setTime }) {
       <h1 className="text-xl font-bold sm:text-2xl">Set your timer</h1>
       <div className="flex w-[70%] flex-col gap-4">
         <label htmlFor="sessionTime" className="text-sm sm:text-base">
-          Session Time
+          Session Time (minutes)
         </label>
         <input
           type="number"
@@ -68,7 +68,7 @@ export function Modal({ isModalOpen, setIsModalOpen, time, setTime }) {
       </div>
       <div className="flex w-[70%] flex-col gap-4">
         <label htmlFor="breakTime" className="text-sm sm:text-base">
-          Break Time
+          Break Time (minutes)
         </label>
         <input
           type="number"
