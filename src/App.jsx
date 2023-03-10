@@ -57,7 +57,6 @@ function App() {
         progress,
       })
     );
-    setProgress(getProgress());
   }, [progress]);
 
   // Reset progress daily.
@@ -235,7 +234,7 @@ function App() {
         >
           <div
             className={`h-2 max-w-full rounded-full bg-gray-800`}
-            style={{ width: `${progress / (goal * 360)}%` }}
+            style={{ width: `${(progress / (goal * 3600)) * 100}%` }}
           ></div>
         </div>
 
