@@ -91,6 +91,7 @@ function App() {
       if (todayDate - currentProgressDate >= 1) {
         localStorage.removeItem("progress");
       }
+      setProgress(getProgress());
     }
   }, []);
 
