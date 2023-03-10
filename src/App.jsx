@@ -59,6 +59,23 @@ function App() {
     }
   }
 
+  // Reset progress daily.
+  useEffect(() => {
+    const currentProgress = JSON.parse(localStorage.getItem("progress"));
+    if (currentProgress) {
+      const currentProgressDate = Math.floor(
+        currentProgress.createdTime / (1000 * 60 * 60 * 24)
+      );
+      const now = new Date().getTime();
+      const todayDate = Math.floor(now / (1000 * 60 * 60 * 24));
+
+      if (todayDate - currentProgressDate >= 1) {
+        localStorage.removeItem("progress");
+        setProgress(getProgress());
+      }
+    }
+  }, []);
+
   // Update progress every second.
   useEffect(() => {
     localStorage.setItem(
@@ -78,22 +95,6 @@ function App() {
       setIsGoalAchieved(false);
     }
   }, [progress, goal]);
-
-  // Reset progress daily.
-  useEffect(() => {
-    const currentProgress = JSON.parse(localStorage.getItem("progress"));
-    if (currentProgress) {
-      const currentProgressDate = Math.floor(
-        currentProgress.createdTime / (1000 * 60 * 60 * 24)
-      );
-      const now = new Date().getTime();
-      const todayDate = Math.floor(now / (1000 * 60 * 60 * 24));
-      if (todayDate - currentProgressDate >= 1) {
-        localStorage.removeItem("progress");
-      }
-      setProgress(getProgress());
-    }
-  }, []);
 
   // Timer.
   const timer = () => {
