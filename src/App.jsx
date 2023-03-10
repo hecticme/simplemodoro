@@ -124,6 +124,7 @@ function App() {
     }
   };
 
+  // Reset and skip function
   const resetTimer = () => {
     setTime((prev) => {
       return {
@@ -135,11 +136,24 @@ function App() {
     setIsBreak(false);
     clearInterval(cdInterval.current);
     clearInterval(progressInterval.current);
+    document.title = "Simple Pomodoro";
+    changeDocumentIcon("");
   };
 
   function playNotification() {
     notificationSound.currentTime = 0;
     notificationSound.play();
+  }
+
+  function changeDocumentIcon(suffix) {
+    let faviconLight = document.querySelector(
+      'link[rel="icon"][media="(prefers-color-scheme: light)"]'
+    );
+    let faviconDark = document.querySelector(
+      'link[rel="icon"][media="(prefers-color-scheme: dark)"]'
+    );
+    faviconLight.href = `/favicon-light${suffix}.svg`;
+    faviconDark.href = `/favicon-dark${suffix}.svg`;
   }
 
   // Change page title dynamically.
@@ -148,14 +162,7 @@ function App() {
       document.title = `${formatTime(time.displayTime)} 🔥 Focusing!`;
     } else if (!isPaused && isBreak) {
       document.title = `${formatTime(time.displayTime)} 💙 Take a break!`;
-      let faviconLight = document.querySelector(
-        'link[rel="icon"][media="(prefers-color-scheme: light)"]'
-      );
-      let faviconDark = document.querySelector(
-        'link[rel="icon"][media="(prefers-color-scheme: dark)"]'
-      );
-      faviconLight.href = "/favicon-light-break.svg";
-      faviconDark.href = "/favicon-dark-break.svg";
+      changeDocumentIcon("-break");
     }
   }, [time.displayTime]);
 
@@ -182,14 +189,8 @@ function App() {
         setIsBreak(false);
         setIsPaused(true);
         document.title = "Simple Pomodoro";
-        let faviconLight = document.querySelector(
-          'link[rel="icon"][media="(prefers-color-scheme: light)"]'
-        );
-        let faviconDark = document.querySelector(
-          'link[rel="icon"][media="(prefers-color-scheme: dark)"]'
-        );
-        faviconLight.href = "/favicon-light.svg";
-        faviconDark.href = "/favicon-dark.svg";
+        changeDocumentIcon("");
+        playNotification();
       }
     }
   }, [time]);
