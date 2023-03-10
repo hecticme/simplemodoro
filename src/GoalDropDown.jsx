@@ -26,6 +26,8 @@ export function GoalDropDownn({ isGoalOpen, goal, setGoal }) {
           name="goal"
           id="goal"
           max="16"
+          min="0.5"
+          step="0.25"
           value={goal}
           onChange={(e) => {
             handleChange(e);

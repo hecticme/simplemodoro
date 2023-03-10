@@ -15,6 +15,7 @@ function App() {
   const [isGoalOpen, setIsGoalOpen] = useState(false);
   // Daily goal display states.
   const [goal, setGoal] = useState(1);
+  const [progress, setProgress] = useState(0);
   // Timer states.
   const [isPaused, setIsPaused] = useState(true);
   const [isBreak, setIsBreak] = useState(false);
@@ -23,8 +24,13 @@ function App() {
     breakTime: 5 * 60,
     displayTime: 25 * 60,
   });
+  // RefId for intervals.
   const cdInterval = useRef(null);
+  const progressInterval = useRef(null);
 
+  const getProgress = () => {};
+
+  // Reusable Timer.
   const timer = () => {
     cdInterval.current = setInterval(() => {
       setTime((prev) => {
@@ -36,6 +42,7 @@ function App() {
     }, 1000);
   };
 
+  // Countdown logic when pressing pause button.s
   const countdown = () => {
     if (isPaused) {
       timer();
@@ -95,6 +102,15 @@ function App() {
       ":" +
       (seconds < 10 ? "0" + seconds : seconds)
     );
+  };
+
+  const formatGoal = () => {
+    const goalInHour = goal * 60;
+    const hour = Math.floor(goalInHour / 60);
+    const minute = goalInHour % 60;
+    return `${hour != 0 ? `${hour} hour${hour > 1 ? "s" : ""}` : ""} ${
+      minute != 0 ? `${minute} minute${minute > 1 ? "s" : ""}` : ""
+    }`;
   };
 
   return (
@@ -160,7 +176,9 @@ function App() {
           <div className="h-2 w-[10%] rounded-full bg-gray-800"></div>
         </div>
         <div className="flex justify-end gap-2 self-end">
-          <p className="flex items-center text-sm sm:text-base">{goal} hours</p>
+          <p className="flex items-center text-sm sm:text-base">
+            {formatGoal(goal)}
+          </p>
           <div
             className="relative flex aspect-square w-6 cursor-pointer items-center justify-center rounded bg-gray-900 hover:bg-gray-700"
             onClick={(e) => {
