@@ -29,9 +29,9 @@ function App() {
   const progressInterval = useRef(null);
 
   function getProgress() {
-    const localProgress = localStorage.getItem("progress");
-    if (localProgress != null) {
-      return localProgress;
+    const localProgress = JSON.parse(localStorage.getItem("progress"));
+    if (localProgress) {
+      return localProgress.progress;
     } else {
       return 0;
     }
@@ -39,11 +39,32 @@ function App() {
 
   // Update progress every second.
   useEffect(() => {
-    localStorage.setItem("progress", progress);
+    localStorage.setItem(
+      "progress",
+      JSON.stringify({
+        createdTime: new Date().getTime(),
+        progress,
+      })
+    );
     setProgress(getProgress());
   }, [progress]);
 
-  // Reusable Timer.
+  // Reset progress daily.
+  useEffect(() => {
+    const currentProgress = JSON.parse(localStorage.getItem("progress"));
+    if (currentProgress) {
+      const currentProgressDate = Math.floor(
+        currentProgress.createdTime / (1000 * 60 * 60 * 24)
+      );
+      const now = new Date().getTime();
+      const todayDate = Math.floor(now / (1000 * 60 * 60 * 24));
+      if (todayDate - currentProgressDate >= 1) {
+        localStorage.removeItem("progress");
+      }
+    }
+  }, []);
+
+  // Timer.
   const timer = () => {
     cdInterval.current = setInterval(() => {
       setTime((prev) => {
