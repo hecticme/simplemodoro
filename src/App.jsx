@@ -29,7 +29,7 @@ function App() {
     const storageBreakTime = localStorage.getItem("breakTime");
     return {
       sessionTime: storageSessionTime ? storageSessionTime : 25 * 60,
-      breakTime: storageBreakTime ? storageBreakTime : 25 * 60,
+      breakTime: storageBreakTime ? storageBreakTime : 5 * 60,
       displayTime: storageSessionTime ? storageSessionTime : 25 * 60,
     };
   }
