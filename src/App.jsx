@@ -16,6 +16,7 @@ function App() {
   // Daily goal display states.
   const [goal, setGoal] = useState(getGoal());
   const [progress, setProgress] = useState(getProgress());
+  const [isGoalAchieved, setIsGoalAchieved] = useState(getIsGoalAchieved());
   // Timer states.
   const [isPaused, setIsPaused] = useState(true);
   const [isBreak, setIsBreak] = useState(false);
@@ -48,6 +49,14 @@ function App() {
     }
   }
 
+  function getIsGoalAchieved() {
+    if (progress / (goal * 3600) >= 1) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   // Update progress every second.
   useEffect(() => {
     localStorage.setItem(
@@ -57,6 +66,15 @@ function App() {
         progress,
       })
     );
+  }, [progress]);
+
+  // Change state, styles when goal is achieved.
+  useEffect(() => {
+    if (progress / (goal * 3600) >= 1) {
+      setIsGoalAchieved(true);
+    } else {
+      setIsGoalAchieved(false);
+    }
   }, [progress]);
 
   // Reset progress daily.
@@ -233,7 +251,9 @@ function App() {
           }`}
         >
           <div
-            className={`h-2 max-w-full rounded-full bg-gray-800`}
+            className={`h-2 max-w-full rounded-full transition-colors duration-300 ${
+              isGoalAchieved ? "bg-yellow-300" : "bg-gray-800"
+            }`}
             style={{ width: `${(progress / (goal * 3600)) * 100}%` }}
           ></div>
         </div>
@@ -257,6 +277,14 @@ function App() {
             />
           </div>
         </div>
+
+        <h3
+          className={`text-center text-xl font-bold transition-transform duration-500 sm:text-2xl ${
+            isGoalAchieved ? "scale-100" : "scale-0"
+          } `}
+        >
+          Yay! You made it! 🎉
+        </h3>
       </div>
 
       {/* Modal and Overlay. */}

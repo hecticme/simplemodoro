@@ -11,7 +11,7 @@ export function GoalDropDownn({ isGoalOpen, goal, setGoal }) {
 
   return (
     <div
-      className={`absolute top-[120%] right-0 h-24 w-32 rounded bg-gray-900 text-sm shadow-md shadow-slate-700 sm:h-28 sm:w-40 sm:text-base ${
+      className={`absolute top-[120%] right-0 z-10 h-24 w-32 rounded bg-gray-900 text-sm shadow-md shadow-slate-700 sm:h-28 sm:w-40 sm:text-base ${
         isGoalOpen ? "block" : "hidden"
       }`}
       onClick={(e) => {
