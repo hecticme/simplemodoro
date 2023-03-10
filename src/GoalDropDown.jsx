@@ -2,8 +2,10 @@ export function GoalDropDownn({ isGoalOpen, goal, setGoal }) {
   const handleChange = (e) => {
     if (e.target.value > 16) {
       setGoal(16);
+      localStorage.setItem("goal", 16);
     } else {
       setGoal(e.target.value);
+      localStorage.setItem("goal", e.target.value);
     }
   };
 

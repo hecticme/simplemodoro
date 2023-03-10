@@ -14,19 +14,30 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isGoalOpen, setIsGoalOpen] = useState(false);
   // Daily goal display states.
-  const [goal, setGoal] = useState(1);
+  const [goal, setGoal] = useState(getGoal());
   const [progress, setProgress] = useState(getProgress());
   // Timer states.
   const [isPaused, setIsPaused] = useState(true);
   const [isBreak, setIsBreak] = useState(false);
-  const [time, setTime] = useState({
-    sessionTime: 25 * 60,
-    breakTime: 5 * 60,
-    displayTime: 25 * 60,
-  });
+  const [time, setTime] = useState(getTime());
   // RefId for intervals.
   const cdInterval = useRef(null);
   const progressInterval = useRef(null);
+
+  function getTime() {
+    const storageSessionTime = localStorage.getItem("sessionTime");
+    const storageBreakTime = localStorage.getItem("breakTime");
+    return {
+      sessionTime: storageSessionTime ? storageSessionTime : 25 * 60,
+      breakTime: storageBreakTime ? storageBreakTime : 25 * 60,
+      displayTime: storageSessionTime ? storageSessionTime : 25 * 60,
+    };
+  }
+
+  function getGoal() {
+    const storageGoal = localStorage.getItem("goal");
+    return storageGoal ? storageGoal : 1;
+  }
 
   function getProgress() {
     const localProgress = JSON.parse(localStorage.getItem("progress"));
@@ -218,7 +229,7 @@ function App() {
         </h2>
 
         <div
-          className={`h-2 w-full rounded-full transition-colors duration-500 ${
+          className={`h-2 w-full overflow-hidden rounded-full transition-colors duration-500 ${
             isBreak ? "bg-slate-100" : "bg-gray-300"
           }`}
         >

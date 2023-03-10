@@ -12,6 +12,7 @@ export function Modal({ isModalOpen, setIsModalOpen, time, setTime }) {
           [name]: 240 * 60,
         };
       });
+      localStorage.setItem(`${name}`, 240 * 60);
     } else if (name == "breakTime" && value > 30) {
       setTime((prev) => {
         return {
@@ -19,6 +20,7 @@ export function Modal({ isModalOpen, setIsModalOpen, time, setTime }) {
           [name]: 30 * 60,
         };
       });
+      localStorage.setItem(`${name}`, 30 * 60);
     } else {
       // Else set the value normally.
       setTime((prev) => {
@@ -27,6 +29,7 @@ export function Modal({ isModalOpen, setIsModalOpen, time, setTime }) {
           [name]: value * 60,
         };
       });
+      localStorage.setItem(`${name}`, value * 60);
     }
   }
 
