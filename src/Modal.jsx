@@ -76,7 +76,7 @@ export function Modal({ isModalOpen, setIsModalOpen, time, setTime }) {
           name="breakTime"
           min="5"
           max="30"
-          step="5"
+          step="1"
           value={(time.breakTime / 60).toString()}
           className="w-full rounded bg-slate-100 p-1 text-sm text-gray-900 sm:p-2 sm:text-base"
           onChange={(e) => {
