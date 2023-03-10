@@ -21,6 +21,8 @@ function App() {
   const [isPaused, setIsPaused] = useState(true);
   const [isBreak, setIsBreak] = useState(false);
   const [time, setTime] = useState(getTime());
+  // Sound state.
+  const [notificationSound] = useState(new Audio("./notification-sound.mp3"));
   // RefId for intervals.
   const cdInterval = useRef(null);
   const progressInterval = useRef(null);
@@ -111,7 +113,7 @@ function App() {
     }, 1000);
   };
 
-  // Countdown logic when pressing pause button.s
+  // Countdown logic when pressing pause button.
   const countdown = () => {
     if (isPaused) {
       timer();
@@ -134,6 +136,11 @@ function App() {
     clearInterval(cdInterval.current);
     clearInterval(progressInterval.current);
   };
+
+  function playNotification() {
+    notificationSound.currentTime = 0;
+    notificationSound.play();
+  }
 
   // Change page title dynamically.
   useEffect(() => {
@@ -164,6 +171,7 @@ function App() {
         }));
         setIsBreak(true);
         timer();
+        playNotification();
       } else {
         clearInterval(cdInterval.current);
 
