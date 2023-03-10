@@ -37,7 +37,7 @@ export function Modal({ isModalOpen, setIsModalOpen, time, setTime }) {
     <div
       className={`fixed ${
         isModalOpen ? "scale-100" : "scale-0"
-      } flex h-[70%] w-[90%] flex-col items-center justify-center gap-6 rounded-md bg-slate-900 text-slate-100 transition-transform duration-300 sm:w-[70%] xl:w-1/2`}
+      } z-20 flex h-[70%] w-[90%] flex-col items-center justify-center gap-6 rounded-md bg-slate-900 text-slate-100 transition-transform duration-300 sm:w-[70%] xl:w-1/2`}
       onClick={(e) => {
         e.stopPropagation();
       }}

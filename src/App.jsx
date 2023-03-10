@@ -75,7 +75,7 @@ function App() {
     } else {
       setIsGoalAchieved(false);
     }
-  }, [progress]);
+  }, [progress, goal]);
 
   // Reset progress daily.
   useEffect(() => {
@@ -192,7 +192,7 @@ function App() {
   return (
     <div
       className={`${
-        isBreak ? "bg-blue-400" : "bg-slate-100"
+        isBreak ? "bg-blue-400 dark:bg-blue-900" : ""
       } flex h-screen select-none flex-col items-center justify-center gap-4 p-4 transition-colors duration-500`}
       onClick={() => {
         setIsGoalOpen(false);
@@ -203,35 +203,35 @@ function App() {
       </h1>
       <div className="mb-4 flex gap-2">
         <div
-          className="flex aspect-square w-10 cursor-pointer items-center justify-center rounded-full bg-gray-900 hover:bg-gray-700"
+          className="flex aspect-square w-10 cursor-pointer items-center justify-center rounded-full bg-gray-900 hover:bg-gray-700 dark:bg-slate-300 dark:hover:bg-slate-100"
           onClick={() => {
             setIsPaused((prev) => !prev);
             countdown();
           }}
         >
           {isPaused ? (
-            <PlayIcon className="w-1/2 text-white" />
+            <PlayIcon className="w-1/2 text-slate-100 dark:text-gray-900" />
           ) : (
-            <PauseIcon className="w-1/2 text-white" />
+            <PauseIcon className="w-1/2 text-slate-100 dark:text-gray-900" />
           )}
         </div>
         <div
-          className="flex aspect-square w-10 cursor-pointer items-center justify-center rounded-full bg-gray-900 hover:bg-gray-700"
+          className="flex aspect-square w-10 cursor-pointer items-center justify-center rounded-full bg-gray-900 hover:bg-gray-700 dark:bg-slate-300 dark:hover:bg-slate-100"
           onClick={() => {
             resetTimer();
           }}
         >
           {isBreak ? (
-            <ArrowRightOnRectangleIcon className="w-1/2 text-white" />
+            <ArrowRightOnRectangleIcon className="w-1/2 text-slate-100 dark:text-gray-900" />
           ) : (
-            <ArrowPathRoundedSquareIcon className="w-1/2 text-white" />
+            <ArrowPathRoundedSquareIcon className="w-1/2 text-slate-100 dark:text-gray-900" />
           )}
         </div>
       </div>
 
       <div className="flex flex-wrap gap-2">
         <div
-          className="cursor-pointer rounded bg-gray-900 py-2 px-4 text-white transition-colors hover:bg-gray-700"
+          className="cursor-pointer rounded bg-gray-900 py-2 px-4 text-slate-100 transition-colors hover:bg-gray-700 dark:bg-slate-300 dark:text-gray-900 dark:hover:bg-slate-100"
           onClick={(e) => {
             e.stopPropagation();
             setIsModalOpen((prev) => !prev);
@@ -263,13 +263,13 @@ function App() {
             {formatGoal(goal)}
           </p>
           <div
-            className="relative flex aspect-square w-6 cursor-pointer items-center justify-center rounded bg-gray-900 hover:bg-gray-700"
+            className="relative flex aspect-square w-6 cursor-pointer items-center justify-center rounded bg-gray-900 hover:bg-gray-700 dark:bg-slate-300 dark:hover:bg-slate-100"
             onClick={(e) => {
               e.stopPropagation();
               setIsGoalOpen((prev) => !prev);
             }}
           >
-            <PencilIcon className="w-1/2 text-white" />
+            <PencilIcon className="w-1/2 text-slate-100 dark:text-gray-900" />
             <GoalDropDownn
               isGoalOpen={isGoalOpen}
               goal={goal}
@@ -289,7 +289,7 @@ function App() {
 
       {/* Modal and Overlay. */}
       <div
-        className={`pointer-events-none fixed h-full w-full bg-gray-900 opacity-30 ${
+        className={`pointer-events-none fixed h-full w-full bg-gray-900 opacity-30 dark:bg-slate-700 ${
           isModalOpen ? "pointer-events-auto block" : "hidden"
         }`}
         onClick={(e) => {
