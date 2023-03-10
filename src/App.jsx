@@ -248,12 +248,23 @@ function App() {
         setIsGoalOpen(false);
       }}
     >
+      <h3
+        className={`text-center text-xl font-bold transition-transform duration-500 sm:text-2xl ${
+          isBreak ? "scale-100" : "scale-0"
+        } `}
+      >
+        💙 Take a break!
+      </h3>
       <h1 className="text-6xl font-bold sm:text-7xl md:text-8xl">
         {formatTime(time.displayTime)}
       </h1>
       <div className="mb-4 flex gap-2">
-        <div
-          className="flex aspect-square w-10 cursor-pointer items-center justify-center rounded-full bg-gray-900 hover:bg-gray-700 dark:bg-slate-300 dark:hover:bg-slate-100"
+        <button
+          className={`relative flex aspect-square w-10 cursor-pointer items-center justify-center rounded-full bg-gray-900 after:pointer-events-none after:absolute after:right-[130%] after:rounded after:bg-gray-900 after:p-2 after:text-slate-100 after:opacity-0 after:transition-opacity after:duration-300 hover:bg-gray-700 hover:after:opacity-100 dark:bg-slate-300 dark:after:bg-slate-300 dark:after:text-gray-900 dark:hover:bg-slate-100 ${
+            isPaused
+              ? "after:content-['Start/Resume']"
+              : "after:content-['Stop']"
+          }`}
           onClick={() => {
             setIsPaused((prev) => !prev);
             countdown();
@@ -264,9 +275,13 @@ function App() {
           ) : (
             <PauseIcon className="w-1/2 text-slate-100 dark:text-gray-900" />
           )}
-        </div>
-        <div
-          className="flex aspect-square w-10 cursor-pointer items-center justify-center rounded-full bg-gray-900 hover:bg-gray-700 dark:bg-slate-300 dark:hover:bg-slate-100"
+        </button>
+        <button
+          className={`relative after:absolute ${
+            isBreak
+              ? "after:content-['Skip_Break']"
+              : "after:content-['Reset_Timer']"
+          } flex aspect-square w-10 cursor-pointer items-center justify-center rounded-full bg-gray-900 after:pointer-events-none after:left-[130%] after:whitespace-nowrap after:rounded after:bg-gray-900 after:p-2 after:text-slate-100 after:opacity-0 after:transition-opacity after:duration-300 hover:bg-gray-700 hover:after:opacity-100 dark:bg-slate-300 dark:after:bg-slate-300 dark:after:text-gray-900 dark:hover:bg-slate-100`}
           onClick={() => {
             resetTimer();
           }}
@@ -276,7 +291,7 @@ function App() {
           ) : (
             <ArrowPathRoundedSquareIcon className="w-1/2 text-slate-100 dark:text-gray-900" />
           )}
-        </div>
+        </button>
       </div>
 
       <div className="flex flex-wrap gap-2">
@@ -316,7 +331,7 @@ function App() {
           <p className="flex items-center text-sm sm:text-base">
             {formatGoal(goal)}
           </p>
-          <div
+          <button
             className="relative flex aspect-square w-6 cursor-pointer items-center justify-center rounded bg-gray-900 hover:bg-gray-700 dark:bg-slate-300 dark:hover:bg-slate-100"
             onClick={(e) => {
               e.stopPropagation();
@@ -329,7 +344,7 @@ function App() {
               goal={goal}
               setGoal={setGoal}
             />
-          </div>
+          </button>
         </div>
 
         <h3
