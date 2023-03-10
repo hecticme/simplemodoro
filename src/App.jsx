@@ -15,7 +15,7 @@ function App() {
   const [isGoalOpen, setIsGoalOpen] = useState(false);
   // Daily goal display states.
   const [goal, setGoal] = useState(1);
-  const [progress, setProgress] = useState(0);
+  const [progress, setProgress] = useState(getProgress());
   // Timer states.
   const [isPaused, setIsPaused] = useState(true);
   const [isBreak, setIsBreak] = useState(false);
@@ -28,7 +28,20 @@ function App() {
   const cdInterval = useRef(null);
   const progressInterval = useRef(null);
 
-  const getProgress = () => {};
+  function getProgress() {
+    const localProgress = localStorage.getItem("progress");
+    if (localProgress != null) {
+      return localProgress;
+    } else {
+      return 0;
+    }
+  }
+
+  // Update progress every second.
+  useEffect(() => {
+    localStorage.setItem("progress", progress);
+    setProgress(getProgress());
+  }, [progress]);
 
   // Reusable Timer.
   const timer = () => {
@@ -42,12 +55,21 @@ function App() {
     }, 1000);
   };
 
+  // Progress timer.
+  const progressTimer = () => {
+    progressInterval.current = setInterval(() => {
+      setProgress((prev) => prev * 1 + 1);
+    }, 1000);
+  };
+
   // Countdown logic when pressing pause button.s
   const countdown = () => {
     if (isPaused) {
       timer();
+      progressTimer();
     } else {
       clearInterval(cdInterval.current);
+      clearInterval(progressInterval.current);
     }
   };
 
@@ -61,12 +83,15 @@ function App() {
     setIsPaused(true);
     setIsBreak(false);
     clearInterval(cdInterval.current);
+    clearInterval(progressInterval.current);
   };
 
+  // Change to break time when session timer hits zero and vice versa.
   useEffect(() => {
     if (time.displayTime < 0) {
       if (!isBreak) {
         clearInterval(cdInterval.current);
+        clearInterval(progressInterval.current);
         setTime((prev) => ({
           ...prev,
           displayTime: prev.breakTime,
@@ -75,6 +100,7 @@ function App() {
         timer();
       } else {
         clearInterval(cdInterval.current);
+
         setTime((prev) => ({
           ...prev,
           displayTime: prev.sessionTime,
@@ -85,6 +111,7 @@ function App() {
     }
   }, [time]);
 
+  // Set display time to session time on render and on change.
   useEffect(() => {
     setTime((prev) => {
       return {
@@ -168,13 +195,18 @@ function App() {
         <h2 className="mt-4 text-xl font-bold sm:text-2xl md:text-3xl">
           Today's Goal
         </h2>
+
         <div
           className={`h-2 w-full rounded-full transition-colors duration-500 ${
             isBreak ? "bg-slate-100" : "bg-gray-300"
           }`}
         >
-          <div className="h-2 w-[10%] rounded-full bg-gray-800"></div>
+          <div
+            className={`h-2 max-w-full rounded-full bg-gray-800`}
+            style={{ width: `${progress / (goal * 360)}%` }}
+          ></div>
         </div>
+
         <div className="flex justify-end gap-2 self-end">
           <p className="flex items-center text-sm sm:text-base">
             {formatGoal(goal)}
