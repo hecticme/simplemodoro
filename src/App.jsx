@@ -141,6 +141,14 @@ function App() {
       document.title = `${formatTime(time.displayTime)} 🔥 Focusing!`;
     } else if (!isPaused && isBreak) {
       document.title = `${formatTime(time.displayTime)} 💙 Take a break!`;
+      let faviconLight = document.querySelector(
+        'link[rel="icon"][media="(prefers-color-scheme: light)"]'
+      );
+      let faviconDark = document.querySelector(
+        'link[rel="icon"][media="(prefers-color-scheme: dark)"]'
+      );
+      faviconLight.href = "/favicon-light-break.svg";
+      faviconDark.href = "/favicon-dark-break.svg";
     }
   }, [time.displayTime]);
 
@@ -166,6 +174,14 @@ function App() {
         setIsBreak(false);
         setIsPaused(true);
         document.title = "Simple Pomodoro";
+        let faviconLight = document.querySelector(
+          'link[rel="icon"][media="(prefers-color-scheme: light)"]'
+        );
+        let faviconDark = document.querySelector(
+          'link[rel="icon"][media="(prefers-color-scheme: dark)"]'
+        );
+        faviconLight.href = "/favicon-light.svg";
+        faviconDark.href = "/favicon-dark.svg";
       }
     }
   }, [time]);
