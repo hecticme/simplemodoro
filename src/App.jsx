@@ -5,16 +5,17 @@ import {
   PauseIcon,
   ArrowPathRoundedSquareIcon,
   PencilIcon,
+  ArrowRightOnRectangleIcon,
 } from "@heroicons/react/24/solid";
 import { GoalDropDownn } from "./GoalDropDown";
 
 function App() {
-  // Modal and Drop-down.
+  // Modal and Drop-down states.
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isGoalOpen, setIsGoalOpen] = useState(false);
-  // Daily goal display.
+  // Daily goal display states.
   const [goal, setGoal] = useState(1);
-  // Timer.
+  // Timer states.
   const [isPaused, setIsPaused] = useState(true);
   const [isBreak, setIsBreak] = useState(false);
   const [time, setTime] = useState({
@@ -51,6 +52,7 @@ function App() {
       };
     });
     setIsPaused(true);
+    setIsBreak(false);
     clearInterval(cdInterval.current);
   };
 
@@ -97,7 +99,9 @@ function App() {
 
   return (
     <div
-      className="flex h-screen select-none flex-col items-center justify-center gap-4 p-4"
+      className={`${
+        isBreak ? "bg-blue-400" : "bg-slate-100"
+      } flex h-screen select-none flex-col items-center justify-center gap-4 p-4 transition-colors duration-500`}
       onClick={() => {
         setIsGoalOpen(false);
       }}
@@ -107,7 +111,7 @@ function App() {
       </h1>
       <div className="mb-4 flex gap-2">
         <div
-          className="flex aspect-square w-10 cursor-pointer items-center justify-center rounded-full bg-gray-900 hover:bg-gray-700 hover:shadow-md hover:shadow-slate-300"
+          className="flex aspect-square w-10 cursor-pointer items-center justify-center rounded-full bg-gray-900 hover:bg-gray-700"
           onClick={() => {
             setIsPaused((prev) => !prev);
             countdown();
@@ -120,18 +124,22 @@ function App() {
           )}
         </div>
         <div
-          className="flex aspect-square w-10 cursor-pointer items-center justify-center rounded-full bg-gray-900 hover:bg-gray-700 hover:shadow-md hover:shadow-slate-300"
+          className="flex aspect-square w-10 cursor-pointer items-center justify-center rounded-full bg-gray-900 hover:bg-gray-700"
           onClick={() => {
             resetTimer();
           }}
         >
-          <ArrowPathRoundedSquareIcon className="w-1/2 text-white" />
+          {isBreak ? (
+            <ArrowRightOnRectangleIcon className="w-1/2 text-white" />
+          ) : (
+            <ArrowPathRoundedSquareIcon className="w-1/2 text-white" />
+          )}
         </div>
       </div>
 
       <div className="flex flex-wrap gap-2">
         <div
-          className="cursor-pointer rounded bg-gray-900 py-2 px-4 text-white transition-colors hover:bg-gray-700 hover:shadow-md hover:shadow-slate-300"
+          className="cursor-pointer rounded bg-gray-900 py-2 px-4 text-white transition-colors hover:bg-gray-700"
           onClick={(e) => {
             e.stopPropagation();
             setIsModalOpen((prev) => !prev);
@@ -144,13 +152,17 @@ function App() {
         <h2 className="mt-4 text-xl font-bold sm:text-2xl md:text-3xl">
           Today's Goal
         </h2>
-        <div className="h-2 w-full rounded-full bg-gray-300">
+        <div
+          className={`h-2 w-full rounded-full transition-colors duration-500 ${
+            isBreak ? "bg-slate-100" : "bg-gray-300"
+          }`}
+        >
           <div className="h-2 w-[10%] rounded-full bg-gray-800"></div>
         </div>
         <div className="flex justify-end gap-2 self-end">
           <p className="flex items-center text-sm sm:text-base">{goal} hours</p>
           <div
-            className="relative flex aspect-square w-6 cursor-pointer items-center justify-center rounded bg-gray-900 hover:bg-gray-700 hover:shadow-md hover:shadow-slate-300"
+            className="relative flex aspect-square w-6 cursor-pointer items-center justify-center rounded bg-gray-900 hover:bg-gray-700"
             onClick={(e) => {
               e.stopPropagation();
               setIsGoalOpen((prev) => !prev);
