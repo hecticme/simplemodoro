@@ -162,13 +162,27 @@ function App() {
 
   // Set display time to session time on render and on change.
   useEffect(() => {
-    setTime((prev) => {
-      return {
-        ...prev,
-        displayTime: prev.sessionTime,
-      };
-    });
+    if (!isBreak) {
+      setTime((prev) => {
+        return {
+          ...prev,
+          displayTime: prev.sessionTime,
+        };
+      });
+    }
   }, [time.sessionTime]);
+
+  // Set display time to break time on change.
+  useEffect(() => {
+    if (isBreak) {
+      setTime((prev) => {
+        return {
+          ...prev,
+          displayTime: prev.breakTime,
+        };
+      });
+    }
+  }, [time.breakTime]);
 
   const formatTime = (time) => {
     let minutes = Math.floor(time / 60);
