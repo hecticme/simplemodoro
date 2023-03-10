@@ -9,9 +9,12 @@ import {
 import { GoalDropDownn } from "./GoalDropDown";
 
 function App() {
+  // Modal and Drop-down.
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isGoalOpen, setIsGoalOpen] = useState(false);
+  // Daily goal display.
   const [goal, setGoal] = useState(1);
+  // Timer.
   const [isPaused, setIsPaused] = useState(true);
   const [isBreak, setIsBreak] = useState(false);
   const [time, setTime] = useState({
@@ -21,16 +24,20 @@ function App() {
   });
   const cdInterval = useRef(null);
 
+  const timer = () => {
+    cdInterval.current = setInterval(() => {
+      setTime((prev) => {
+        return {
+          ...prev,
+          displayTime: prev.displayTime - 1,
+        };
+      });
+    }, 1000);
+  };
+
   const countdown = () => {
     if (isPaused) {
-      cdInterval.current = setInterval(() => {
-        setTime((prev) => {
-          return {
-            ...prev,
-            displayTime: prev.displayTime - 1,
-          };
-        });
-      }, 1000);
+      timer();
     } else {
       clearInterval(cdInterval.current);
     }
@@ -46,6 +53,28 @@ function App() {
     setIsPaused(true);
     clearInterval(cdInterval.current);
   };
+
+  useEffect(() => {
+    if (time.displayTime < 0) {
+      if (!isBreak) {
+        clearInterval(cdInterval.current);
+        setTime((prev) => ({
+          ...prev,
+          displayTime: prev.breakTime,
+        }));
+        setIsBreak(true);
+        timer();
+      } else {
+        clearInterval(cdInterval.current);
+        setTime((prev) => ({
+          ...prev,
+          displayTime: prev.sessionTime,
+        }));
+        setIsBreak(false);
+        setIsPaused(true);
+      }
+    }
+  }, [time]);
 
   useEffect(() => {
     setTime((prev) => {
@@ -74,7 +103,7 @@ function App() {
       }}
     >
       <h1 className="text-6xl font-bold sm:text-7xl md:text-8xl">
-        {isBreak ? formatTime(breakTime) : formatTime(time.displayTime)}
+        {formatTime(time.displayTime)}
       </h1>
       <div className="mb-4 flex gap-2">
         <div
