@@ -266,7 +266,7 @@ function App() {
         >
           <div
             className={`h-2 max-w-full rounded-full transition-colors duration-300 ${
-              isGoalAchieved ? "bg-yellow-300" : "bg-gray-800"
+              isGoalAchieved ? "bg-yellow-300" : "bg-gray-800 dark:bg-gray-600"
             }`}
             style={{ width: `${(progress / (goal * 3600)) * 100}%` }}
           ></div>
