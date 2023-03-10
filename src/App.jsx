@@ -135,6 +135,15 @@ function App() {
     clearInterval(progressInterval.current);
   };
 
+  // Change page title dynamically.
+  useEffect(() => {
+    if (!isPaused && !isBreak) {
+      document.title = `${formatTime(time.displayTime)} 🔥 Focusing!`;
+    } else if (!isPaused && isBreak) {
+      document.title = `${formatTime(time.displayTime)} 💙 Take a break!`;
+    }
+  }, [time.displayTime]);
+
   // Change to break time when session timer hits zero and vice versa.
   useEffect(() => {
     if (time.displayTime < 0) {
@@ -156,6 +165,7 @@ function App() {
         }));
         setIsBreak(false);
         setIsPaused(true);
+        document.title = "Simple Pomodoro";
       }
     }
   }, [time]);
@@ -184,7 +194,8 @@ function App() {
     }
   }, [time.breakTime]);
 
-  const formatTime = (time) => {
+  // Fortmatters.
+  function formatTime(time) {
     let minutes = Math.floor(time / 60);
     let seconds = time % 60;
     return (
@@ -192,7 +203,7 @@ function App() {
       ":" +
       (seconds < 10 ? "0" + seconds : seconds)
     );
-  };
+  }
 
   const formatGoal = () => {
     const goalInHour = goal * 60;
