@@ -46,7 +46,7 @@ export function Modal({ isModalOpen, setIsModalOpen, time, setTime }) {
       }}
     >
       <button
-        className="absolute top-2 right-2 flex aspect-square h-6 cursor-pointer items-center justify-center rounded-full bg-slate-100 transition-transform hover:scale-110 hover:bg-slate-300 focus:scale-110 focus:bg-slate-300"
+        className="absolute top-2 right-2 flex aspect-square h-6 cursor-pointer items-center justify-center rounded-full bg-slate-100 transition-transform hover:scale-110 hover:bg-slate-300"
         onClick={() => {
           setIsModalOpen(false);
         }}
@@ -73,7 +73,7 @@ export function Modal({ isModalOpen, setIsModalOpen, time, setTime }) {
             }}
           />
           <button
-            className="flex aspect-square w-10 cursor-pointer items-center justify-center rounded bg-slate-100 text-gray-900 hover:bg-slate-300 focus:bg-slate-300"
+            className="flex aspect-square w-10 cursor-pointer items-center justify-center rounded bg-slate-100 text-gray-900 hover:bg-slate-300"
             onClick={() => {
               setTime((prev) => {
                 return {
@@ -107,7 +107,7 @@ export function Modal({ isModalOpen, setIsModalOpen, time, setTime }) {
             }}
           />
           <button
-            className="flex aspect-square w-10 cursor-pointer items-center justify-center rounded bg-slate-100 text-gray-900 hover:bg-slate-300 focus:bg-slate-300"
+            className="flex aspect-square w-10 cursor-pointer items-center justify-center rounded bg-slate-100 text-gray-900 hover:bg-slate-300"
             onClick={() => {
               setTime((prev) => {
                 return {

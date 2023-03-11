@@ -262,7 +262,7 @@ function App() {
       </h1>
       <div className="mb-4 flex gap-2">
         <button
-          className={`relative flex aspect-square w-10 cursor-pointer items-center justify-center rounded-full bg-gray-900 outline-none after:pointer-events-none after:absolute after:right-[115%] after:rounded after:bg-gray-900 after:p-2 after:text-xs after:text-slate-100 after:opacity-0 after:transition-opacity after:duration-300 hover:bg-gray-700 hover:after:opacity-100 focus:bg-gray-700 dark:bg-slate-100 dark:after:bg-slate-100 dark:after:text-gray-900 dark:hover:bg-slate-300 dark:focus:bg-slate-300 sm:after:right-[130%] sm:after:text-base  ${
+          className={`relative flex aspect-square w-10 cursor-pointer items-center justify-center rounded-full bg-gray-900 outline-none after:pointer-events-none after:absolute after:right-[115%] after:rounded after:bg-gray-900 after:p-2 after:text-xs after:text-slate-100 after:opacity-0 after:transition-opacity after:duration-300 hover:bg-gray-700 hover:after:opacity-100  dark:bg-slate-100 dark:after:bg-slate-100 dark:after:text-gray-900 dark:hover:bg-slate-300  sm:after:right-[130%] sm:after:text-base  ${
             isPaused
               ? "after:content-['Start/Resume']"
               : "after:content-['Stop']"
@@ -283,7 +283,7 @@ function App() {
             isBreak
               ? "after:content-['Skip_Break']"
               : "after:content-['Reset_Timer']"
-          } flex aspect-square w-10 cursor-pointer items-center justify-center rounded-full bg-gray-900 outline-none after:pointer-events-none after:left-[115%] after:whitespace-nowrap after:rounded after:bg-gray-900 after:p-2 after:text-xs after:text-slate-100 after:opacity-0 after:transition-opacity after:duration-300 hover:bg-gray-700 hover:after:opacity-100 focus:bg-gray-700 dark:bg-slate-100 dark:after:bg-slate-100 dark:after:text-gray-900 dark:hover:bg-slate-300 dark:focus:bg-slate-300 sm:after:left-[130%] sm:after:text-base `}
+          } flex aspect-square w-10 cursor-pointer items-center justify-center rounded-full bg-gray-900 outline-none after:pointer-events-none after:left-[115%] after:whitespace-nowrap after:rounded after:bg-gray-900 after:p-2 after:text-xs after:text-slate-100 after:opacity-0 after:transition-opacity after:duration-300 hover:bg-gray-700 hover:after:opacity-100  dark:bg-slate-100 dark:after:bg-slate-100 dark:after:text-gray-900 dark:hover:bg-slate-300  sm:after:left-[130%] sm:after:text-base `}
           onClick={() => {
             resetTimer();
           }}
@@ -298,7 +298,7 @@ function App() {
 
       <div className="flex flex-wrap gap-2">
         <button
-          className="cursor-pointer rounded bg-gray-900 py-2 px-4 text-sm text-slate-100 transition-colors hover:bg-gray-700 focus:bg-gray-700 dark:bg-slate-100 dark:text-gray-900 dark:hover:bg-slate-300 dark:focus:bg-slate-300 sm:text-base"
+          className="cursor-pointer rounded bg-gray-900 py-2 px-4 text-sm text-slate-100 transition-colors hover:bg-gray-700  dark:bg-slate-100 dark:text-gray-900 dark:hover:bg-slate-300  sm:text-base"
           onClick={(e) => {
             e.stopPropagation();
             setIsModalOpen((prev) => !prev);
@@ -334,7 +334,7 @@ function App() {
             {formatGoal(goal)}
           </p>
           <button
-            className="relative flex aspect-square w-6 cursor-pointer items-center justify-center rounded bg-gray-900 hover:bg-gray-700 focus:bg-gray-700 dark:bg-slate-100 dark:hover:bg-slate-300 dark:focus:bg-slate-300"
+            className="relative flex aspect-square w-6 cursor-pointer items-center justify-center rounded bg-gray-900 hover:bg-gray-700 dark:bg-slate-100 dark:hover:bg-slate-300"
             onClick={(e) => {
               e.stopPropagation();
               setIsGoalOpen((prev) => !prev);
