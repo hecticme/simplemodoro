@@ -1,4 +1,7 @@
-import { XMarkIcon } from "@heroicons/react/24/solid";
+import {
+  XMarkIcon,
+  ArrowPathRoundedSquareIcon,
+} from "@heroicons/react/24/solid";
 
 export function Modal({ isModalOpen, setIsModalOpen, time, setTime }) {
   function handleChange(e) {
@@ -43,49 +46,81 @@ export function Modal({ isModalOpen, setIsModalOpen, time, setTime }) {
       }}
     >
       <div
-        className="absolute top-2 right-2 aspect-square h-6 cursor-pointer rounded-full bg-slate-200 transition-transform hover:scale-110 hover:bg-slate-100"
+        className="absolute top-2 right-2 flex aspect-square h-6 cursor-pointer items-center justify-center rounded-full bg-slate-200 transition-transform hover:scale-110 hover:bg-slate-100"
         onClick={() => {
           setIsModalOpen(false);
         }}
       >
-        <XMarkIcon className="scale-75 text-gray-900" />
+        <XMarkIcon className="w-9/12 text-gray-900" />
       </div>
       <h1 className="text-xl font-bold sm:text-2xl">Set your timer</h1>
       <div className="flex w-[70%] flex-col gap-4">
         <label htmlFor="sessionTime" className="text-sm sm:text-base">
           Session Time (minutes)
         </label>
-        <input
-          type="number"
-          id="sessionTime"
-          name="sessionTime"
-          min="10"
-          max="240"
-          step="5"
-          value={(time.sessionTime / 60).toString()}
-          className="w-full rounded bg-slate-100 p-1 text-sm text-gray-900 sm:p-2 sm:text-base"
-          onChange={(e) => {
-            handleChange(e);
-          }}
-        />
+        <div className="flex gap-2">
+          <input
+            type="number"
+            id="sessionTime"
+            name="sessionTime"
+            min="10"
+            max="240"
+            step="5"
+            value={(time.sessionTime / 60).toString()}
+            className="w-full rounded bg-slate-100 p-1 text-sm text-gray-900 sm:p-2 sm:text-base"
+            onChange={(e) => {
+              handleChange(e);
+            }}
+          />
+          <div
+            className="flex aspect-square w-10 cursor-pointer items-center justify-center rounded bg-slate-100 text-gray-900"
+            onClick={() => {
+              setTime((prev) => {
+                return {
+                  ...prev,
+                  sessionTime: 25 * 60,
+                };
+              });
+              localStorage.setItem("sessionTime", 25 * 60);
+            }}
+          >
+            <ArrowPathRoundedSquareIcon className="w-[60%]" />
+          </div>
+        </div>
       </div>
       <div className="flex w-[70%] flex-col gap-4">
         <label htmlFor="breakTime" className="text-sm sm:text-base">
           Break Time (minutes)
         </label>
-        <input
-          type="number"
-          id="breakTime"
-          name="breakTime"
-          min="5"
-          max="30"
-          step="1"
-          value={(time.breakTime / 60).toString()}
-          className="w-full rounded bg-slate-100 p-1 text-sm text-gray-900 sm:p-2 sm:text-base"
-          onChange={(e) => {
-            handleChange(e);
-          }}
-        />
+        <div className="flex gap-2">
+          <input
+            type="number"
+            id="breakTime"
+            name="breakTime"
+            min="5"
+            max="30"
+            step="1"
+            value={(time.breakTime / 60).toString()}
+            className="w-full rounded bg-slate-100 p-1 text-sm text-gray-900 sm:p-2 sm:text-base"
+            onChange={(e) => {
+              handleChange(e);
+            }}
+          />
+          <div
+            className="flex aspect-square w-10 cursor-pointer items-center justify-center rounded bg-slate-100 text-gray-900"
+            onClick={() => {
+              setTime((prev) => {
+                return {
+                  ...prev,
+                  breakTime: 5 * 60,
+                };
+              });
+              localStorage.setItem("breakTime", 5 * 60);
+            }}
+          >
+            <ArrowPathRoundedSquareIcon className="w-[60%]" />
+          </div>
+        </div>
       </div>
     </div>
   );
