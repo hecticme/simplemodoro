@@ -45,14 +45,14 @@ export function Modal({ isModalOpen, setIsModalOpen, time, setTime }) {
         e.stopPropagation();
       }}
     >
-      <div
-        className="absolute top-2 right-2 flex aspect-square h-6 cursor-pointer items-center justify-center rounded-full bg-slate-200 transition-transform hover:scale-110 hover:bg-slate-100"
+      <button
+        className="absolute top-2 right-2 flex aspect-square h-6 cursor-pointer items-center justify-center rounded-full bg-slate-100 transition-transform hover:scale-110 hover:bg-slate-300 focus:scale-110 focus:bg-slate-300"
         onClick={() => {
           setIsModalOpen(false);
         }}
       >
         <XMarkIcon className="w-9/12 text-gray-900" />
-      </div>
+      </button>
       <h1 className="text-xl font-bold sm:text-2xl">Set your timer</h1>
       <div className="flex w-[70%] flex-col gap-4">
         <label htmlFor="sessionTime" className="text-sm sm:text-base">
@@ -72,8 +72,8 @@ export function Modal({ isModalOpen, setIsModalOpen, time, setTime }) {
               handleChange(e);
             }}
           />
-          <div
-            className="flex aspect-square w-10 cursor-pointer items-center justify-center rounded bg-slate-100 text-gray-900"
+          <button
+            className="flex aspect-square w-10 cursor-pointer items-center justify-center rounded bg-slate-100 text-gray-900 hover:bg-slate-300 focus:bg-slate-300"
             onClick={() => {
               setTime((prev) => {
                 return {
@@ -85,7 +85,7 @@ export function Modal({ isModalOpen, setIsModalOpen, time, setTime }) {
             }}
           >
             <ArrowPathRoundedSquareIcon className="w-[60%]" />
-          </div>
+          </button>
         </div>
       </div>
       <div className="flex w-[70%] flex-col gap-4">
@@ -106,8 +106,8 @@ export function Modal({ isModalOpen, setIsModalOpen, time, setTime }) {
               handleChange(e);
             }}
           />
-          <div
-            className="flex aspect-square w-10 cursor-pointer items-center justify-center rounded bg-slate-100 text-gray-900"
+          <button
+            className="flex aspect-square w-10 cursor-pointer items-center justify-center rounded bg-slate-100 text-gray-900 hover:bg-slate-300 focus:bg-slate-300"
             onClick={() => {
               setTime((prev) => {
                 return {
@@ -119,7 +119,7 @@ export function Modal({ isModalOpen, setIsModalOpen, time, setTime }) {
             }}
           >
             <ArrowPathRoundedSquareIcon className="w-[60%]" />
-          </div>
+          </button>
         </div>
       </div>
     </div>
