@@ -262,7 +262,7 @@ function App() {
       </h1>
       <div className="mb-4 flex gap-2">
         <button
-          className={`relative flex aspect-square w-10 cursor-pointer items-center justify-center rounded-full bg-gray-900 after:pointer-events-none after:absolute after:right-[115%] after:rounded after:bg-gray-900 after:p-2 after:text-xs after:text-slate-100 after:opacity-0 after:transition-opacity after:duration-300 hover:bg-gray-700 hover:after:opacity-100 dark:bg-slate-300 dark:after:bg-slate-300 dark:after:text-gray-900 dark:hover:bg-slate-100 sm:after:right-[130%] sm:after:text-base lg:after:right-[140%] ${
+          className={`relative flex aspect-square w-10 cursor-pointer items-center justify-center rounded-full bg-gray-900 after:pointer-events-none after:absolute after:right-[115%] after:rounded after:bg-gray-900 after:p-2 after:text-xs after:text-slate-100 after:opacity-0 after:transition-opacity after:duration-300 hover:bg-gray-700 hover:after:opacity-100 dark:bg-slate-300 dark:after:bg-slate-300 dark:after:text-gray-900 dark:hover:bg-slate-100 sm:after:right-[130%] sm:after:text-base  ${
             isPaused
               ? "after:content-['Start/Resume']"
               : "after:content-['Stop']"
@@ -283,7 +283,7 @@ function App() {
             isBreak
               ? "after:content-['Skip_Break']"
               : "after:content-['Reset_Timer']"
-          } flex aspect-square w-10 cursor-pointer items-center justify-center rounded-full bg-gray-900 after:pointer-events-none after:left-[115%] after:whitespace-nowrap after:rounded after:bg-gray-900 after:p-2 after:text-xs after:text-slate-100 after:opacity-0 after:transition-opacity after:duration-300 hover:bg-gray-700 hover:after:opacity-100 dark:bg-slate-300 dark:after:bg-slate-300 dark:after:text-gray-900 dark:hover:bg-slate-100 sm:after:left-[130%] sm:after:text-base lg:after:left-[140%]`}
+          } flex aspect-square w-10 cursor-pointer items-center justify-center rounded-full bg-gray-900 after:pointer-events-none after:left-[115%] after:whitespace-nowrap after:rounded after:bg-gray-900 after:p-2 after:text-xs after:text-slate-100 after:opacity-0 after:transition-opacity after:duration-300 hover:bg-gray-700 hover:after:opacity-100 dark:bg-slate-300 dark:after:bg-slate-300 dark:after:text-gray-900 dark:hover:bg-slate-100 sm:after:left-[130%] sm:after:text-base `}
           onClick={() => {
             resetTimer();
           }}
