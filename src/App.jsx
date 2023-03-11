@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import { setInterval, clearInterval } from "worker-timers";
 import { Modal } from "./Modal";
 import {
   PlayIcon,
