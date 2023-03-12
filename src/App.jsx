@@ -230,8 +230,16 @@ function App() {
 
   // Fortmatters.
   function formatTime(time) {
-    let minutes = Math.floor(time / 60);
-    let seconds = time % 60;
+    let minutes;
+    let seconds;
+    if (time < 0) {
+      // Prevent flickering.
+      minutes = 0;
+      seconds = 0;
+    } else {
+      minutes = Math.floor(time / 60);
+      seconds = time % 60;
+    }
     return (
       (minutes < 10 ? "0" + minutes : minutes) +
       ":" +
