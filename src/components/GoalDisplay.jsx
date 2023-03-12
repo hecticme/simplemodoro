@@ -29,10 +29,9 @@ export function GoalDisplay({
     }
   }, [progress, goal]);
 
-  const formatGoal = (goal) => {
-    const goalInHour = goal * 60;
-    const hour = Math.floor(goalInHour / 60);
-    const minute = goalInHour % 60;
+  const formatByHours = (minutes) => {
+    const hour = Math.floor(minutes / 60);
+    const minute = minutes % 60;
     return `${hour != 0 ? `${hour} hour${hour > 1 ? "s" : ""}` : ""} ${
       minute != 0 ? `${minute} minute${minute > 1 ? "s" : ""}` : ""
     }`;
@@ -43,6 +42,9 @@ export function GoalDisplay({
       <h2 className="mt-4 text-xl font-bold sm:text-2xl md:text-3xl">
         Today's Goal
       </h2>
+      <h3 className="text-sm sm:text-base">
+        Completed: {formatByHours(Math.floor(progress / 60))}
+      </h3>
 
       <div
         className={`h-2 w-full overflow-hidden rounded-full transition-colors duration-500 ${
@@ -63,7 +65,7 @@ export function GoalDisplay({
 
       <div className="flex justify-end gap-2 self-end">
         <p className="flex items-center text-sm sm:text-base">
-          {formatGoal(goal)}
+          Goal: {formatByHours(goal * 60)}
         </p>
         <div className="relative flex flex-col gap-2 ">
           <button
