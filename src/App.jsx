@@ -102,9 +102,12 @@ function App() {
       timer();
     } else if (isBreak && !isPaused) {
       clearInterval(cdInterval.current);
+      cdInterval.current = null;
     } else {
       clearInterval(cdInterval.current);
       clearInterval(progressInterval.current);
+      cdInterval.current = null;
+      progressInterval.current = null;
     }
   };
 
@@ -116,10 +119,20 @@ function App() {
         displayTime: prev.sessionTime,
       };
     });
+    if (cdInterval.current && !progressInterval.current) {
+      clearInterval(cdInterval.current);
+      cdInterval.current = null;
+    } else if (!cdInterval.current && progressInterval.current) {
+      clearInterval(progressInterval.current);
+      progressInterval.current = null;
+    } else if (cdInterval.current && progressInterval.current) {
+      clearInterval(cdInterval.current);
+      clearInterval(progressInterval.current);
+      cdInterval.current = null;
+      progressInterval.current = null;
+    }
     setIsPaused(true);
     setIsBreak(false);
-    clearInterval(cdInterval.current);
-    clearInterval(progressInterval.current);
     document.title = "Simple Pomodoro";
     changeDocumentIcon("");
   };
@@ -152,32 +165,44 @@ function App() {
 
   // Change to break time when session timer hits zero and vice versa.
   useEffect(() => {
-    if (time.displayTime < 0) {
+    if (time.displayTime <= 0) {
       if (!isBreak) {
-        clearInterval(cdInterval.current);
-        clearInterval(progressInterval.current);
         setTime((prev) => ({
           ...prev,
           displayTime: prev.breakTime,
         }));
         setIsBreak(true);
+        if (cdInterval.current && !progressInterval.current) {
+          clearInterval(cdInterval.current);
+          cdInterval.current = null;
+        } else if (!cdInterval.current && progressInterval.current) {
+          clearInterval(progressInterval.current);
+          progressInterval.current = null;
+        } else if (cdInterval.current && progressInterval.current) {
+          clearInterval(cdInterval.current);
+          clearInterval(progressInterval.current);
+          cdInterval.current = null;
+          progressInterval.current = null;
+        }
         timer();
         playNotification();
       } else {
-        clearInterval(cdInterval.current);
-
         setTime((prev) => ({
           ...prev,
           displayTime: prev.sessionTime,
         }));
         setIsBreak(false);
         setIsPaused(true);
+        if (cdInterval.current) {
+          clearInterval(cdInterval.current);
+          cdInterval.current = null;
+        }
         document.title = "Simple Pomodoro";
         changeDocumentIcon("");
         playNotification();
       }
     }
-  }, [time]);
+  }, [time.displayTime]);
 
   // Set display time to session time on render and on change.
   useEffect(() => {
