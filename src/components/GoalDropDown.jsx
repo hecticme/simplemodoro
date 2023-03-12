@@ -23,7 +23,10 @@ export function GoalDropDown({ isGoalOpen, goal, setGoal }) {
       }}
     >
       <div className="flex flex-col justify-center gap-2 px-3 py-2">
-        <label htmlFor="goal" className="text-slate-100 dark:text-gray-900">
+        <label
+          htmlFor="goal"
+          className="text-sm text-slate-100 dark:text-gray-900 sm:text-base"
+        >
           Set your goal for the day!
         </label>
         <input
