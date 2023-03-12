@@ -3,6 +3,9 @@ export function GoalDropDown({ isGoalOpen, goal, setGoal }) {
     if (e.target.value > 16) {
       setGoal(16);
       localStorage.setItem("goal", 16);
+    } else if (e.target.value < 0) {
+      setGoal(0.5);
+      localStorage.setItem("goal", 0.5);
     } else {
       setGoal(e.target.value);
       localStorage.setItem("goal", e.target.value);
