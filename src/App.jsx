@@ -95,9 +95,13 @@ function App() {
 
   // Countdown logic when pressing pause button.
   const countdown = () => {
-    if (isPaused) {
+    if (!isBreak && isPaused) {
       timer();
       progressTimer();
+    } else if (isBreak && isPaused) {
+      timer();
+    } else if (isBreak && !isPaused) {
+      clearInterval(cdInterval.current);
     } else {
       clearInterval(cdInterval.current);
       clearInterval(progressInterval.current);
