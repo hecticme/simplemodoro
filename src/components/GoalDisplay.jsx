@@ -68,6 +68,7 @@ export function GoalDisplay({
         <div className="relative flex flex-col gap-2 ">
           <button
             className="flex aspect-square w-6 cursor-pointer items-center justify-center rounded bg-gray-900 hover:bg-gray-700 dark:bg-slate-100 dark:hover:bg-slate-300"
+            type="button"
             onClick={(e) => {
               e.stopPropagation();
               setIsGoalOpen((prev) => !prev);
