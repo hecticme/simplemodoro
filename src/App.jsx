@@ -165,7 +165,7 @@ function App() {
 
   // Change to break time when session timer hits zero and vice versa.
   useEffect(() => {
-    if (time.displayTime <= 0) {
+    if (time.displayTime < 0) {
       if (!isBreak) {
         setTime((prev) => ({
           ...prev,
