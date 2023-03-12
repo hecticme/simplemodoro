@@ -1,4 +1,4 @@
-export function GoalDropDownn({ isGoalOpen, goal, setGoal }) {
+export function GoalDropDown({ isGoalOpen, goal, setGoal }) {
   const handleChange = (e) => {
     if (e.target.value > 16) {
       setGoal(16);

@@ -1,14 +1,14 @@
 import { useEffect, useState, useRef } from "react";
 import { setInterval, clearInterval } from "worker-timers";
-import { Modal } from "./Modal";
+import { Modal } from "./components/Modal";
+import { Timer } from "./components/Timer";
+import { GoalDisplay } from "./components/GoalDisplay";
 import {
   PlayIcon,
   PauseIcon,
   ArrowPathRoundedSquareIcon,
-  PencilIcon,
   ArrowRightOnRectangleIcon,
 } from "@heroicons/react/24/solid";
-import { GoalDropDownn } from "./GoalDropDown";
 
 function App() {
   // Modal and Drop-down states.
@@ -17,7 +17,6 @@ function App() {
   // Daily goal display states.
   const [goal, setGoal] = useState(getGoal());
   const [progress, setProgress] = useState(getProgress());
-  const [isGoalAchieved, setIsGoalAchieved] = useState(getIsGoalAchieved());
   // Timer states.
   const [isPaused, setIsPaused] = useState(true);
   const [isBreak, setIsBreak] = useState(false);
@@ -52,15 +51,7 @@ function App() {
     }
   }
 
-  function getIsGoalAchieved() {
-    if (progress / (goal * 3600) >= 1) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  // Reset progress daily.
+  // Reset progress daily (Follow UTC time).
   useEffect(() => {
     const currentProgress = JSON.parse(localStorage.getItem("progress"));
     if (currentProgress) {
@@ -87,15 +78,6 @@ function App() {
       })
     );
   }, [progress]);
-
-  // Change state, styles when goal is achieved.
-  useEffect(() => {
-    if (progress / (goal * 3600) >= 1) {
-      setIsGoalAchieved(true);
-    } else {
-      setIsGoalAchieved(false);
-    }
-  }, [progress, goal]);
 
   // Timer.
   const timer = () => {
@@ -233,15 +215,6 @@ function App() {
     );
   }
 
-  const formatGoal = () => {
-    const goalInHour = goal * 60;
-    const hour = Math.floor(goalInHour / 60);
-    const minute = goalInHour % 60;
-    return `${hour != 0 ? `${hour} hour${hour > 1 ? "s" : ""}` : ""} ${
-      minute != 0 ? `${minute} minute${minute > 1 ? "s" : ""}` : ""
-    }`;
-  };
-
   return (
     <div
       className={`${
@@ -251,16 +224,7 @@ function App() {
         setIsGoalOpen(false);
       }}
     >
-      <h3
-        className={`text-center text-xl font-bold transition-transform duration-500 sm:text-2xl ${
-          isBreak ? "scale-100" : "scale-0"
-        } `}
-      >
-        💙 Take a break!
-      </h3>
-      <h1 className="text-6xl font-bold sm:text-7xl md:text-8xl">
-        {formatTime(time.displayTime)}
-      </h1>
+      <Timer isBreak={isBreak} formatTime={formatTime} time={time} />
       <div className="mb-4 flex gap-2">
         <button
           className={`relative flex aspect-square w-10 cursor-pointer items-center justify-center rounded-full bg-gray-900 outline-none after:pointer-events-none after:absolute after:right-[115%] after:rounded after:bg-gray-900 after:p-2 after:text-xs after:text-slate-100 after:opacity-0 after:transition-opacity after:duration-300 hover:bg-gray-700 hover:after:opacity-100  dark:bg-slate-100 dark:after:bg-slate-100 dark:after:text-gray-900 dark:hover:bg-slate-300  sm:after:right-[130%] sm:after:text-base  ${
@@ -308,56 +272,15 @@ function App() {
           Set Duration.
         </button>
       </div>
-      <div className="flex flex-col items-center justify-center gap-4">
-        <h2 className="mt-4 text-xl font-bold sm:text-2xl md:text-3xl">
-          Today's Goal
-        </h2>
 
-        <div
-          className={`h-2 w-full overflow-hidden rounded-full transition-colors duration-500 ${
-            isBreak ? "bg-slate-100" : "bg-gray-300"
-          }`}
-        >
-          <div
-            className={`h-2 max-w-full rounded-full transition-colors duration-300 ${
-              isGoalAchieved
-                ? "bg-yellow-300"
-                : `bg-gray-800 ${
-                    isBreak ? "dark:bg-gray-900" : "dark:bg-gray-600"
-                  }`
-            }`}
-            style={{ width: `${(progress / (goal * 3600)) * 100}%` }}
-          ></div>
-        </div>
-
-        <div className="flex justify-end gap-2 self-end">
-          <p className="flex items-center text-sm sm:text-base">
-            {formatGoal(goal)}
-          </p>
-          <button
-            className="relative flex aspect-square w-6 cursor-pointer items-center justify-center rounded bg-gray-900 hover:bg-gray-700 dark:bg-slate-100 dark:hover:bg-slate-300"
-            onClick={(e) => {
-              e.stopPropagation();
-              setIsGoalOpen((prev) => !prev);
-            }}
-          >
-            <PencilIcon className="w-1/2 text-slate-100 dark:text-gray-900" />
-            <GoalDropDownn
-              isGoalOpen={isGoalOpen}
-              goal={goal}
-              setGoal={setGoal}
-            />
-          </button>
-        </div>
-
-        <h3
-          className={`text-center text-xl font-bold transition-transform duration-500 sm:text-2xl ${
-            isGoalAchieved ? "scale-100" : "scale-0"
-          } `}
-        >
-          Yay! You made it! 🎉
-        </h3>
-      </div>
+      <GoalDisplay
+        isBreak={isBreak}
+        progress={progress}
+        goal={goal}
+        isGoalOpen={isGoalOpen}
+        setGoal={setGoal}
+        setIsGoalOpen={setIsGoalOpen}
+      />
 
       {/* Modal and Overlay. */}
       <div
