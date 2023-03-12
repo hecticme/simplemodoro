@@ -230,6 +230,7 @@ function App() {
 
       <button
         className="cursor-pointer rounded bg-gray-900 py-2 px-4 text-sm text-slate-100 transition-colors hover:bg-gray-700  dark:bg-slate-100 dark:text-gray-900 dark:hover:bg-slate-300  sm:text-base"
+        type="button"
         onClick={(e) => {
           e.stopPropagation();
           setIsModalOpen((prev) => !prev);
