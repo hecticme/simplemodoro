@@ -68,7 +68,7 @@ function App() {
         currentProgress.createdTime / (1000 * 60 * 60 * 24)
       );
       const now = new Date().getTime();
-      const todayDate = Math.floor(now / (1000 * 60 * 60 * 24));
+      const todayDate = now / (1000 * 60 * 60 * 24);
 
       if (todayDate - currentProgressDate >= 1) {
         localStorage.removeItem("progress");
