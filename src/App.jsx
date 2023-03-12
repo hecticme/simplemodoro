@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { setInterval, clearInterval } from "worker-timers";
 import { Modal } from "./components/Modal";
-import { Timer } from "./components/Timer";
+import { TimerDisplay } from "./components/TimerDisplay";
 import { GoalDisplay } from "./components/GoalDisplay";
 import {
   PlayIcon,
@@ -224,7 +224,7 @@ function App() {
         setIsGoalOpen(false);
       }}
     >
-      <Timer isBreak={isBreak} formatTime={formatTime} time={time} />
+      <TimerDisplay isBreak={isBreak} formatTime={formatTime} time={time} />
       <div className="mb-4 flex gap-2">
         <button
           className={`relative flex aspect-square w-10 cursor-pointer items-center justify-center rounded-full bg-gray-900 outline-none after:pointer-events-none after:absolute after:right-[115%] after:rounded after:bg-gray-900 after:p-2 after:text-xs after:text-slate-100 after:opacity-0 after:transition-opacity after:duration-300 hover:bg-gray-700 hover:after:opacity-100  dark:bg-slate-100 dark:after:bg-slate-100 dark:after:text-gray-900 dark:hover:bg-slate-300  sm:after:right-[130%] sm:after:text-base  ${

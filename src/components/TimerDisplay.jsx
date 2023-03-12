@@ -1,4 +1,4 @@
-export function Timer({ isBreak, formatTime, time }) {
+export function TimerDisplay({ isBreak, formatTime, time }) {
   return (
     <>
       <h3
