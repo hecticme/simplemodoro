@@ -32,9 +32,13 @@ export function GoalDisplay({
   const formatByHours = (minutes) => {
     const hour = Math.floor(minutes / 60);
     const minute = minutes % 60;
-    return `${hour != 0 ? `${hour} hour${hour > 1 ? "s" : ""}` : ""} ${
-      minute != 0 ? `${minute} minute${minute > 1 ? "s" : ""}` : ""
-    }`;
+    if (hour <= 0 && minute <= 0) {
+      return "0";
+    } else {
+      return `${hour > 0 ? `${hour} hour${hour > 1 ? "s" : ""}` : ""} ${
+        minute > 0 ? `${minute} minute${minute > 1 ? "s" : ""}` : ""
+      }`;
+    }
   };
 
   return (
