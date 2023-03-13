@@ -17,7 +17,7 @@ function App() {
   const [isBreak, setIsBreak] = useState(false);
   const [time, setTime] = useState(getTime());
   // Sound state.
-  const [notificationSound] = useState(new Audio("./notification-sound.mp3"));
+  const notificationSound = useRef(new Audio("./notification-sound.mp3"));
   // RefId for intervals.
   const cdInterval = useRef(null);
   const progressInterval = useRef(null);
@@ -138,8 +138,8 @@ function App() {
   };
 
   function playNotification() {
-    notificationSound.currentTime = 0;
-    notificationSound.play();
+    notificationSound.current.currentTime = 0;
+    notificationSound.current.play();
   }
 
   function changeDocumentIcon(suffix) {
