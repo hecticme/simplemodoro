@@ -172,18 +172,10 @@ function App() {
           displayTime: prev.breakTime,
         }));
         setIsBreak(true);
-        if (cdInterval.current && !progressInterval.current) {
-          clearInterval(cdInterval.current);
-          cdInterval.current = null;
-        } else if (!cdInterval.current && progressInterval.current) {
-          clearInterval(progressInterval.current);
-          progressInterval.current = null;
-        } else if (cdInterval.current && progressInterval.current) {
-          clearInterval(cdInterval.current);
-          clearInterval(progressInterval.current);
-          cdInterval.current = null;
-          progressInterval.current = null;
-        }
+        clearInterval(cdInterval.current);
+        clearInterval(progressInterval.current);
+        cdInterval.current = null;
+        progressInterval.current = null;
         timer();
         playNotification();
       } else {
@@ -193,10 +185,8 @@ function App() {
         }));
         setIsBreak(false);
         setIsPaused(true);
-        if (cdInterval.current) {
-          clearInterval(cdInterval.current);
-          cdInterval.current = null;
-        }
+        clearInterval(cdInterval.current);
+        cdInterval.current = null;
         document.title = "Simple Pomodoro";
         changeDocumentIcon("");
         playNotification();
