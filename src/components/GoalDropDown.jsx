@@ -14,7 +14,7 @@ export function GoalDropDown({ isGoalOpen, goal, setGoal }) {
 
   return (
     <div
-      className={`absolute top-[120%] right-0 z-10 h-24 w-32 rounded bg-gray-900 text-sm dark:bg-slate-300 sm:h-28 sm:w-40 sm:text-base ${
+      className={`absolute top-[120%] right-0 z-10 h-auto w-36 rounded bg-gray-900 p-2 text-sm dark:bg-slate-300 sm:w-40 sm:p-3 sm:text-base ${
         isGoalOpen ? "block" : "hidden"
       }`}
       onClick={(e) => {
@@ -22,7 +22,7 @@ export function GoalDropDown({ isGoalOpen, goal, setGoal }) {
         e.stopPropagation();
       }}
     >
-      <div className="flex flex-col justify-center gap-2 px-3 py-2">
+      <div className="flex flex-col justify-center gap-2 ">
         <label
           htmlFor="goal"
           className="text-sm text-slate-100 dark:text-gray-900 sm:text-base"
