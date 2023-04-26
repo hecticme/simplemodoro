@@ -1,251 +1,27 @@
-import { useEffect, useState, useRef } from "react";
-import { setInterval, clearInterval } from "worker-timers";
+import { useState } from "react";
 import { Modal } from "./components/Modal";
 import { TimerDisplay } from "./components/TimerDisplay";
 import { TimerControl } from "./components/TimerControl";
 import { GoalDisplay } from "./components/GoalDisplay";
+import { useTimer } from "./hooks/useTimer";
+import { formatTime } from "./functions";
 
 function App() {
   // Modal and Drop-down states.
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isGoalOpen, setIsGoalOpen] = useState(false);
-  // Daily goal display states.
-  const [goal, setGoal] = useState(getGoal());
-  const [progress, setProgress] = useState(getProgress());
-  // Timer states.
-  const [isPaused, setIsPaused] = useState(true);
-  const [isBreak, setIsBreak] = useState(false);
-  const [time, setTime] = useState(getTime());
-  // Sound state.
-  const notificationSound = useRef(new Audio("./notification-sound.mp3"));
-  // RefId for intervals.
-  const cdInterval = useRef(null);
-  const progressInterval = useRef(null);
-
-  function getTime() {
-    const storageSessionTime = localStorage.getItem("sessionTime");
-    const storageBreakTime = localStorage.getItem("breakTime");
-    return {
-      sessionTime: storageSessionTime ? storageSessionTime : 25 * 60,
-      breakTime: storageBreakTime ? storageBreakTime : 5 * 60,
-      displayTime: storageSessionTime ? storageSessionTime : 25 * 60,
-    };
-  }
-
-  function getGoal() {
-    const storageGoal = localStorage.getItem("goal");
-    return storageGoal ? storageGoal : 1;
-  }
-
-  function getProgress() {
-    const localProgress = JSON.parse(localStorage.getItem("progress"));
-    if (localProgress) {
-      return localProgress.progress;
-    } else {
-      return 0;
-    }
-  }
-
-  // Reset progress daily (Follow UTC time).
-  useEffect(() => {
-    const currentProgress = JSON.parse(localStorage.getItem("progress"));
-    if (currentProgress) {
-      const currentProgressDate = Math.floor(
-        currentProgress.createdTime / (1000 * 60 * 60 * 24)
-      );
-      const now = new Date().getTime();
-      const todayDate = now / (1000 * 60 * 60 * 24);
-
-      if (todayDate - currentProgressDate >= 1) {
-        localStorage.removeItem("progress");
-        setProgress(getProgress());
-      }
-    }
-  }, []);
-
-  // Update progress every second.
-  useEffect(() => {
-    localStorage.setItem(
-      "progress",
-      JSON.stringify({
-        createdTime: new Date().getTime(),
-        progress,
-      })
-    );
-  }, [progress]);
-
-  // Timer.
-  const timer = () => {
-    cdInterval.current = setInterval(() => {
-      setTime((prev) => {
-        return {
-          ...prev,
-          displayTime: prev.displayTime - 1,
-        };
-      });
-    }, 1000);
-  };
-
-  // Progress timer.
-  const progressTimer = () => {
-    progressInterval.current = setInterval(() => {
-      setProgress((prev) => prev * 1 + 1);
-    }, 1000);
-  };
-
-  // Countdown logic when pressing pause button.
-  const countdown = () => {
-    if (!isBreak && isPaused) {
-      timer();
-      progressTimer();
-    } else if (isBreak && isPaused) {
-      timer();
-    } else if (isBreak && !isPaused) {
-      clearInterval(cdInterval.current);
-      cdInterval.current = null;
-    } else {
-      clearInterval(cdInterval.current);
-      clearInterval(progressInterval.current);
-      cdInterval.current = null;
-      progressInterval.current = null;
-    }
-  };
-
-  // Reset and skip function
-  const resetTimer = () => {
-    setTime((prev) => {
-      return {
-        ...prev,
-        displayTime: prev.sessionTime,
-      };
-    });
-    if (cdInterval.current && !progressInterval.current) {
-      clearInterval(cdInterval.current);
-      cdInterval.current = null;
-    } else if (!cdInterval.current && progressInterval.current) {
-      clearInterval(progressInterval.current);
-      progressInterval.current = null;
-    } else if (cdInterval.current && progressInterval.current) {
-      clearInterval(cdInterval.current);
-      clearInterval(progressInterval.current);
-      cdInterval.current = null;
-      progressInterval.current = null;
-    }
-    setIsPaused(true);
-    setIsBreak(false);
-    document.title = "Simple Pomodoro";
-    changeDocumentIcon("");
-  };
-
-  function playNotification() {
-    notificationSound.current.currentTime = 0;
-    notificationSound.current.play();
-  }
-
-  function changeDocumentIcon(suffix) {
-    let faviconLight = document.querySelector(
-      'link[rel="icon"][media="(prefers-color-scheme: light)"]'
-    );
-    let faviconDark = document.querySelector(
-      'link[rel="icon"][media="(prefers-color-scheme: dark)"]'
-    );
-    faviconLight.href = `/favicon-light${suffix}.svg`;
-    faviconDark.href = `/favicon-dark${suffix}.svg`;
-  }
-
-  // Change page title dynamically.
-  useEffect(() => {
-    if (!isPaused && !isBreak) {
-      document.title = `${formatTime(time.displayTime)} 🔥 Focusing!`;
-    } else if (!isPaused && isBreak) {
-      document.title = `${formatTime(time.displayTime)} 💙 Take a break!`;
-      changeDocumentIcon("-break");
-    }
-  }, [time.displayTime]);
-
-  // Change to break time when session timer hits zero and vice versa.
-  useEffect(() => {
-    if (time.displayTime < 0) {
-      if (!isBreak) {
-        setTime((prev) => ({
-          ...prev,
-          displayTime: prev.breakTime,
-        }));
-        setIsBreak(true);
-        if (cdInterval.current && !progressInterval.current) {
-          clearInterval(cdInterval.current);
-          cdInterval.current = null;
-        } else if (!cdInterval.current && progressInterval.current) {
-          clearInterval(progressInterval.current);
-          progressInterval.current = null;
-        } else if (cdInterval.current && progressInterval.current) {
-          clearInterval(cdInterval.current);
-          clearInterval(progressInterval.current);
-          cdInterval.current = null;
-          progressInterval.current = null;
-        }
-        timer();
-        playNotification();
-      } else {
-        setTime((prev) => ({
-          ...prev,
-          displayTime: prev.sessionTime,
-        }));
-        setIsBreak(false);
-        setIsPaused(true);
-        if (cdInterval.current) {
-          clearInterval(cdInterval.current);
-          cdInterval.current = null;
-        }
-        document.title = "Simple Pomodoro";
-        changeDocumentIcon("");
-        playNotification();
-      }
-    }
-  }, [time.displayTime]);
-
-  // Set display time to session time on render and on change.
-  useEffect(() => {
-    if (!isBreak) {
-      setTime((prev) => {
-        return {
-          ...prev,
-          displayTime: prev.sessionTime,
-        };
-      });
-    }
-  }, [time.sessionTime]);
-
-  // Set display time to break time on change.
-  useEffect(() => {
-    if (isBreak) {
-      setTime((prev) => {
-        return {
-          ...prev,
-          displayTime: prev.breakTime,
-        };
-      });
-    }
-  }, [time.breakTime]);
-
-  // Fortmatters.
-  function formatTime(time) {
-    let minutes;
-    let seconds;
-    if (time < 0) {
-      // Prevent flickering.
-      minutes = 0;
-      seconds = 0;
-    } else {
-      minutes = Math.floor(time / 60);
-      seconds = time % 60;
-    }
-    return (
-      (minutes < 10 ? "0" + minutes : minutes) +
-      ":" +
-      (seconds < 10 ? "0" + seconds : seconds)
-    );
-  }
+  const {
+    time,
+    setTime,
+    isPaused,
+    setIsPaused,
+    countdown,
+    isBreak,
+    resetTimer,
+    progress,
+    goal,
+    setGoal,
+  } = useTimer();
 
   return (
     <div
